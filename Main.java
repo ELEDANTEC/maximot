@@ -1,5 +1,4 @@
 package fr.eni.maximot;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -18,17 +17,31 @@ public class JeuDeLettres {
         // Étape 4: Afficher le tirage au joueur
         System.out.println("Tirage : " + motMelange);
 
-        // Étape 5: Le joueur saisit sa proposition
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Saisissez votre proposition : ");
-        String proposition = scanner.nextLine();
+        // Étape 5: Définir le nombre d'essais autorisés
+        int essaisAutorises = 5;
 
-        // Étape 6: Vérifier la proposition
-        if (verifierProposition(proposition, motChoisi)) {
-            System.out.println("Bravo ! Vous avez trouvé le mot : " + motChoisi);
-        } else {
-            System.out.println("Dommage, la réponse était : " + motChoisi);
+        // Créer une seule instance de Scanner pour toute la boucle
+        Scanner scanner = new Scanner(System.in);
+
+        // Boucle pour les essais
+        for (int essai = 1; essai <= essaisAutorises; essai++) {
+            // Étape 6: Le joueur saisit sa proposition
+            System.out.println("Essai " + essai + " - Saisissez votre proposition : ");
+            String proposition = scanner.nextLine();
+
+            // Étape 7: Vérifier la proposition
+            if (verifierProposition(proposition, motChoisi)) {
+                System.out.println("Bravo ! Vous avez trouvé le mot : " + motChoisi);
+                return; // Sortir de la boucle si le joueur a trouvé le mot
+            } else {
+                // Afficher le nombre d'essais restants en cas d'échec
+                int essaisRestants = essaisAutorises - essai;
+                System.out.println("Dommage ! Il vous reste " + essaisRestants + " essais.");
+            }
         }
+
+        // Message d'échec si le joueur n'a pas trouvé le mot après tous les essais
+        System.out.println("Désolé, vous n'avez pas trouvé le mot. Le mot était : " + motChoisi);
     }
 
     private static String choisirMotAleatoire(String[] mots) {
